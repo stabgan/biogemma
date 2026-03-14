@@ -1,23 +1,45 @@
-# 🧬 BioGemma — Medical LLM based on Google Gemma 3
+# BioGemma
+
+Fine-tuned Gemma-3 1B for clinical and biomedical NLP.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Model](https://img.shields.io/badge/base-Gemma%203%201B-blue.svg)](https://ai.google.dev/gemma)
-[![HuggingFace](https://img.shields.io/badge/🤗-Model%20Card-orange.svg)](#)
+[![Base Model](https://img.shields.io/badge/base-Gemma%203%201B-blue.svg)](https://ai.google.dev/gemma)
 
-A fine-tuned version of Google's Gemma 3 1B model on medical and biomedical text corpora, optimized for clinical NLP tasks.
+---
 
-## What is BioGemma?
+## Overview
 
-BioGemma adapts the Gemma 3 1B parameter model for the medical domain through fine-tuning on curated biomedical literature, clinical notes patterns, and medical Q&A datasets. The goal is a lightweight, deployable medical language model that can run on a single GPU.
+BioGemma is a domain-adapted version of Google's [Gemma 3 1B](https://ai.google.dev/gemma) language model, fine-tuned on biomedical and clinical text for downstream medical NLP tasks such as:
 
-## Use Cases
+- Medical question answering
+- Clinical text comprehension and summarization
+- Biomedical entity recognition (drugs, conditions, procedures)
+- Medical literature summarization
 
-- **Medical question answering** — Answer clinical and biomedical questions
-- **Clinical text understanding** — Parse and interpret medical documentation
-- **Medical entity recognition** — Identify drugs, conditions, procedures in text
-- **Literature summarization** — Summarize medical research papers and abstracts
+## Fine-Tuning Approach
 
-## Quick Start
+| Detail | Value |
+|---|---|
+| Base model | Google Gemma 3 1B |
+| Method | LoRA / QLoRA (parameter-efficient fine-tuning) |
+| Training data | Curated medical corpus — PubMed abstracts, medical textbooks, clinical guidelines |
+| Hardware | Single-GPU training |
+
+## Dependencies
+
+```
+torch
+transformers
+accelerate
+```
+
+Install with:
+
+```bash
+pip install torch transformers accelerate
+```
+
+## Usage
 
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -32,25 +54,25 @@ outputs = model.generate(**inputs, max_new_tokens=256)
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
 
-## Training Details
+## Known Issues
 
-- **Base model:** Google Gemma 3 1B
-- **Fine-tuning method:** LoRA / QLoRA
-- **Training data:** Curated medical corpus (PubMed abstracts, medical textbooks, clinical guidelines)
-- **Hardware:** Single GPU training
+- **No model weights published yet.** The HuggingFace Hub model (`stabgan/biogemma`) is not available as of this writing. The usage example above will fail until weights are uploaded.
+- **No training or evaluation code in this repository.** The repo currently contains only documentation (README + LICENSE). There are no scripts, notebooks, configs, or reproducible training pipelines.
+- **No benchmark results.** No evaluation against standard medical NLP benchmarks (MedQA, PubMedQA, MedMCQA) has been published.
+- **No requirements file.** Dependencies are inferred from the usage example; there is no `requirements.txt` or `pyproject.toml`.
 
 ## Roadmap
 
 - [ ] Publish model weights to HuggingFace Hub
+- [ ] Add training and evaluation scripts
 - [ ] Benchmark against MedQA, PubMedQA, MedMCQA
-- [ ] Add clinical note generation capabilities
+- [ ] Clinical note generation capabilities
 - [ ] RLHF alignment for medical safety
-- [ ] Comparison with BioMistral, MedAlpaca, PMC-LLaMA
 
 ## Disclaimer
 
-This model is for research purposes only. It is not intended for clinical decision-making or medical diagnosis. Always consult qualified healthcare professionals for medical advice.
+This model is for **research purposes only**. It is not intended for clinical decision-making or medical diagnosis. Always consult qualified healthcare professionals for medical advice.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+[MIT](LICENSE)
